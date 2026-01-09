@@ -1,0 +1,40 @@
+name: Dockerize
+description: 'Build and push a Docker image to Google Artifact Registry'
+
+inputs:
+  IMAGE_URL:
+    description: 'The image URL to use for the Docker image'
+    required: true
+  SA_KEY:
+    description: 'Service account key for authentication'
+    required: true
+    secret: true
+  IMAGE_NAME:
+    description: 'The name of the Docker image to build'
+    required: false
+    default: 'horas-registro-civil'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Docker login
+      uses: docker/login-action@v3
+      with:
+        registry: us-docker.pkg.dev
+        username: _json_key
+        password: ${{ inputs.SA_KEY }}
+
+    - name: Docker build
+      shell: bash
+      run: make build-to-deploy
+
+    - name: Docker tag
+      shell: bash
+      run: |
+        docker tag ${{ inputs.IMAGE_NAME }}:latest ${{ inputs.IMAGE_URL }}:${{ github.sha }}
+        docker tag ${{ inputs.IMAGE_NAME }}:latest ${{ inputs.IMAGE_URL }}:latest
+
+    - name: Docker push
+      shell: bash
+      run: |
+        docker push ${{ inputs.IMAGE_URL }} --all-tags

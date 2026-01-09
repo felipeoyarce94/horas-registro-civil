@@ -1,0 +1,16 @@
+.venv/
+.git/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.env.local
+tests/
+.github/
+*.md
+.gitignore
+.python-version
+playwright/
+.playwright/
+htmlcov/
+.coverage

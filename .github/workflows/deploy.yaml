@@ -21,17 +21,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Create Artifact Registry repository if it doesn't exist
+        run: |
+          gcloud artifacts repositories describe horas-registro-civil \
+            --location=${{ env.REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            2>/dev/null || \
+          gcloud artifacts repositories create horas-registro-civil \
+            --repository-format=docker \
+            --location=${{ env.REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --description="Docker repository for horas-registro-civil"
+
       - name: Dockerize and push
         uses: ./.github/actions/dockerize
         with:
           IMAGE_URL: ${{ env.IMAGE_URL }}
           SA_KEY: ${{ secrets.SA_KEY }}
           IMAGE_NAME: horas-registro-civil
-
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.SA_KEY }}
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2

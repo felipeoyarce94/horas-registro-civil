@@ -17,10 +17,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Docker login
+    - name: Docker set up
       uses: docker/login-action@v3
       with:
-        registry: us-docker.pkg.dev
+        registry: us-west2-docker.pkg.dev
         username: _json_key
         password: ${{ inputs.SA_KEY }}
 
@@ -31,8 +31,8 @@ runs:
     - name: Docker tag
       shell: bash
       run: |
-        docker tag ${{ inputs.IMAGE_NAME }}:latest ${{ inputs.IMAGE_URL }}:${{ github.sha }}
-        docker tag ${{ inputs.IMAGE_NAME }}:latest ${{ inputs.IMAGE_URL }}:latest
+        docker tag ${{ inputs.IMAGE_NAME }} ${{ inputs.IMAGE_URL }}:${{ github.sha }}
+        docker tag ${{ inputs.IMAGE_NAME }} ${{ inputs.IMAGE_URL }}:latest
 
     - name: Docker push
       shell: bash

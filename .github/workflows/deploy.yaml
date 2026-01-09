@@ -10,7 +10,7 @@ env:
   GCP_PROJECT_ID: terapea2
   SERVICE_NAME: horas-registro-civil
   REGION: us-west2
-  IMAGE_URL: us-docker.pkg.dev/terapea2/horas-registro-civil
+  IMAGE_URL: us-west2-docker.pkg.dev/terapea2/horas-registro-civil
 
 jobs:
   deploy:
@@ -25,21 +25,6 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.SA_KEY }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Create Artifact Registry repository if it doesn't exist
-        run: |
-          gcloud artifacts repositories describe horas-registro-civil \
-            --location=${{ env.REGION }} \
-            --project=${{ env.GCP_PROJECT_ID }} \
-            2>/dev/null || \
-          gcloud artifacts repositories create horas-registro-civil \
-            --repository-format=docker \
-            --location=${{ env.REGION }} \
-            --project=${{ env.GCP_PROJECT_ID }} \
-            --description="Docker repository for horas-registro-civil"
 
       - name: Dockerize and push
         uses: ./.github/actions/dockerize

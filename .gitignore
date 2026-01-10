@@ -11,7 +11,7 @@ wheels/
 
 # Environment variables
 .env
-.env.local
+.env.example
 
 # Playwright browsers cache
 playwright/

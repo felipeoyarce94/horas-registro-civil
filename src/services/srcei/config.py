@@ -1,16 +1,14 @@
 """Configuration for SRCEI service."""
 
-from dataclasses import dataclass
+from pydantic import BaseModel, field_validator
 
 
-@dataclass
-class SRCEIConfig:
+class SRCEIConfig(BaseModel):
     """Configuration for SRCEI appointment booking client."""
 
     # User credentials
     rut: str  # Chilean RUT with dash (e.g., "12345678-9")
     password: str
-    username: str  # Usually same as RUT
 
     # Base URL for SRCEI
     base_url: str = "https://solicitudeswebrc.srcei.cl/ReservaDeHoraSRCEI"
@@ -18,18 +16,13 @@ class SRCEIConfig:
     # HTTP client settings
     timeout: int = 30  # seconds
 
-    def validate(self) -> None:
-        """Validate configuration values."""
-        if not self.rut:
-            raise ValueError("RUT is required")
-        if not self.password:
-            raise ValueError("Password is required")
-        if not self.username:
-            raise ValueError("Username is required")
-
-        # Basic RUT format validation (should contain dash)
-        if "-" not in self.rut:
-            raise ValueError(f"RUT must contain dash separator: {self.rut}")
+    @field_validator("rut")
+    @classmethod
+    def rut_must_contain_dash(cls, v: str) -> str:
+        """Validate RUT format contains dash separator."""
+        if "-" not in v:
+            raise ValueError(f"RUT must contain dash separator: {v}")
+        return v
 
 
 class ProcedureType:

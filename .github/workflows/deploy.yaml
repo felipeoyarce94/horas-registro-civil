@@ -43,7 +43,6 @@ jobs:
           secrets: |-
             SRCEI_RUT=SRCEI_RUT:latest
             SRCEI_PASSWORD=SRCEI_PASSWORD:latest
-            SRCEI_USERNAME=SRCEI_USERNAME:latest
           flags: |-
             --allow-unauthenticated
             --memory 1024Mi

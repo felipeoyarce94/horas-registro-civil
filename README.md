@@ -154,7 +154,6 @@ API will be available at `http://localhost:8000`
 Required:
 - `SRCEI_RUT`: Chilean RUT with dash (e.g., "12345678-9")
 - `SRCEI_PASSWORD`: SRCEI account password
-- `SRCEI_USERNAME`: SRCEI username (usually same as RUT)
 
 Optional:
 - `PORT`: Server port (default: 8080)
@@ -201,7 +200,6 @@ make run-docker
 3. Secrets configured in GCP Secret Manager:
    - `SRCEI_RUT`
    - `SRCEI_PASSWORD`
-   - `SRCEI_USERNAME`
 
 #### GitHub Actions Deployment
 
@@ -235,7 +233,7 @@ gcloud run deploy horas-registro-civil \
   --timeout 300 \
   --max-instances 10 \
   --allow-unauthenticated \
-  --set-secrets SRCEI_RUT=SRCEI_RUT:latest,SRCEI_PASSWORD=SRCEI_PASSWORD:latest,SRCEI_USERNAME=SRCEI_USERNAME:latest
+  --set-secrets SRCEI_RUT=SRCEI_RUT:latest,SRCEI_PASSWORD=SRCEI_PASSWORD:latest
 ```
 
 ## Architecture

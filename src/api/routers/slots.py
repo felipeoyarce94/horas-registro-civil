@@ -54,7 +54,6 @@ async def get_slots(
         config = SRCEIConfig(
             rut=settings.srcei_rut,
             password=settings.srcei_password,
-            username=settings.srcei_username,
         )
 
         # Initialize Playwright client and get slots

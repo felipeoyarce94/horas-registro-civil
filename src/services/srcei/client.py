@@ -29,7 +29,6 @@ class SRCEIPlaywrightClient:
             headless: Run browser in headless mode
         """
         self.config = config
-        self.config.validate()
         self.headless = headless
 
         self.playwright = None

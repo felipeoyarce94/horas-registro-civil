@@ -10,7 +10,7 @@ env:
   GCP_PROJECT_ID: terapea2
   SERVICE_NAME: horas-registro-civil
   REGION: us-west2
-  IMAGE_URL: us-west2-docker.pkg.dev/terapea2/horas-registro-civil
+  IMAGE_URL: us-west2-docker.pkg.dev/terapea2/horas-registro-civil/horas-registro-civil
 
 jobs:
   deploy:
